@@ -2,6 +2,7 @@ from galleries.settings import ADMIN_THUMBNAIL_SIZE
 
 from easy_thumbnails.files import get_thumbnailer
 
+
 def thumbnail(image_path, cropping=None):
     thumbnailer = get_thumbnailer(image_path)
     thumbnail_options = {
@@ -12,6 +13,7 @@ def thumbnail(image_path, cropping=None):
     }
     thumb = thumbnailer.get_thumbnail(thumbnail_options)
     return thumb.url
+
 
 def croppable(image_path):
     thumbnailer = get_thumbnailer(image_path)

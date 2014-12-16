@@ -2,6 +2,7 @@ from django.db import models
 
 from widgets import GalleryForeignKeyWidget
 
+
 class GalleryForeignKey(models.ForeignKey):
     """
     A field that references a Gallary, this will only work in the admin cause

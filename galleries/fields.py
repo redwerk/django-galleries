@@ -9,8 +9,8 @@ class GalleryForeignKey(models.ForeignKey):
     it leverages the raw_id widget.
     """
 
-    def __init__(self, model, *args, **kwargs):
-        super(GalleryForeignKey, self).__init__(model, *args, **kwargs)
+    # def __init__(self, model, *args, **kwargs):
+    #     super(GalleryForeignKey, self).__init__(model, *args, **kwargs)
 
     def formfield(self, *args, **kwargs):
         kwargs['widget'] = GalleryForeignKeyWidget(self.rel, using=kwargs.get('using'))

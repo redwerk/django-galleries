@@ -1,6 +1,6 @@
 Django==1.7.1
 Pillow==2.6.1
 easy_thumbnails
-git+git://github.com/tkaemming/django-orderable.git
+django-orderable==3.0.0
 git+git://github.com/jonasundderwolf/django-image-cropping.git
 django-respite>=1.20

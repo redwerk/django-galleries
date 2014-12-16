@@ -3,7 +3,7 @@ from image_cropping.fields import ImageRatioField, ImageCropField
 
 from galleries.settings import IMAGE_CROPPING_RATIO
 
-from orderable.models import OrderableModel
+from orderable.models import Orderable
 
 from django.utils.translation import ugettext as _
 from utils import thumbnail, croppable
@@ -34,14 +34,14 @@ class Gallery(models.Model):
         return context
 
 
-class Image(OrderableModel):
+class Image(Orderable):
     gallery = models.ForeignKey(Gallery, related_name="images")
     title = models.CharField(_('title'), max_length=100, blank=True)
     caption = models.TextField(_('caption'), blank=True)
     image = ImageCropField(blank=True, null=True, upload_to='uploads/galleries/images/')
     cropping = ImageRatioField('image', IMAGE_CROPPING_RATIO)  # size is "width x height"
 
-    class Meta(OrderableModel.Meta):
+    class Meta(Orderable.Meta):
         verbose_name = _('image')
         verbose_name_plural = _('images')
 

@@ -17,7 +17,7 @@ setup(
         'easy_thumbnails',
         'django-respite>=1.2.0',
         'Pillow',
-        'django-orderable',
+        'django-orderable==3.0.0',
         'django-image-cropping'
     ],
     dependency_links=[

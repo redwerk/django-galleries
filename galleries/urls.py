@@ -3,7 +3,7 @@ from respite.urls import resource, routes
 from views import GalleryViews, ImageViews
 
 urlpatterns = resource(
-    prefix='/galleries/',
+    # prefix='/galleries/',
     views=GalleryViews,
     routes=[
         routes.route(
@@ -28,15 +28,9 @@ urlpatterns = resource(
 )
 
 urlpatterns += resource(
-    prefix='/galleries/',
+    # prefix='/galleries/',
     views=ImageViews,
     routes=[
-        routes.route(
-            regex=r'^(?P<gallery_id>[0-9]+)/images$',
-            view='index',
-            method='GET',
-            name='images',
-        ),
         routes.route(
             regex=r'^(?P<gallery_id>[0-9]+)/images/(?:$|index(?:\.[a-zA-Z]+)?$)',
             view='index',

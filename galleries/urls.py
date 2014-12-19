@@ -32,7 +32,7 @@ urlpatterns += resource(
     views=ImageViews,
     routes=[
         routes.route(
-            regex=r'^(?P<gallery_id>[0-9]+)/images/$)',
+            regex=r'^(?P<gallery_id>[0-9]+)/images/$',
             view='index',
             method='GET',
             name='images',

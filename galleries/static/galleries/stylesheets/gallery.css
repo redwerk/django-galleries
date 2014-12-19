@@ -16,6 +16,10 @@
     position: relative;
 }
 
+#gallery ul a img {
+    width: 100px;
+}
+
 #gallery ul li .deleteBtn {
   display: block;
   position: absolute;

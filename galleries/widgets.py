@@ -80,10 +80,10 @@ class GalleryForeignKeyWidget(ForeignKeyRawIdWidget, GalleryWidget):
 
             output.append('</ul>')
             output.append('<div id="upload">')
-            output.append('<p>Choose, or drop images here.</p>')
             output.append('<form>')
             output.append('<input type="file" value="Choose file" multiple />')
             output.append('</form>')
+            output.append('<p>Choose, or drop images here.</p>')
             output.append('</div>')
             output.append('</div>')
 

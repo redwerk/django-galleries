@@ -1,9 +1,9 @@
 $(function(){
 
-    /*var min_width = parseInt($("#gallery").data('aspect-ratio').split("/")[0])
-    var min_height = parseInt($("#gallery").data('aspect-ratio').split("/")[1])*/
-    var min_width = 16
-    var min_height = 9
+    var min_width = parseInt($("#gallery").data('aspect-ratio').split("/")[0])
+    var min_height = parseInt($("#gallery").data('aspect-ratio').split("/")[1])
+    /*var min_width = 16
+    var min_height = 9*/
     MIN_SIZE = [min_width, min_height]
     ASPECT_RATIO = min_width/min_height
     
@@ -33,6 +33,7 @@ $(function(){
 
     window.GalleryImages = Backbone.Collection.extend({
         model: GalleryImage,
+        headers: {"Content-Type": 'application/json'},
         url: GALLERY_URL,
 
         parse: function(response) {

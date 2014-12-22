@@ -1,11 +1,14 @@
 $(function(){
 
-    var min_width = parseInt($("#gallery").data('aspect-ratio').split("/")[0])
-    var min_height = parseInt($("#gallery").data('aspect-ratio').split("/")[1])
+    var min_width = 16;
+    var min_height = 9;
+    if($("#gallery").length){
+        var min_width = parseInt($("#gallery").data('aspect-ratio').split("/")[0])
+        var min_height = parseInt($("#gallery").data('aspect-ratio').split("/")[1])
+    }
 
     MIN_SIZE = [min_width, min_height]
     ASPECT_RATIO = min_width/min_height
-    
     
     var gallery_select = $("#id_gallery")
     
@@ -13,14 +16,17 @@ $(function(){
     
     var GALLERY_URL = '/admin/galleries/' + GALLERY_ID + '/images/';
 
-    $(gallery_select).bind("change", function(e) {
+    gallery_select.change(function(e) {
         // Switcing galleries
-        var id = $(gallery_select).val()
+        var id = gallery_select.val()
         if (id != '') {
-            GALLERY_ID =  $(gallery_select).val()
+            GALLERY_ID =  id;
             GALLERY_URL = '/admin/galleries/' + GALLERY_ID + '/images/';
             Images.url = GALLERY_URL;
             window.Gallery = new GalleryView
+            if(id){
+                $("#upload").show();
+            }
         }
     })
     
@@ -314,12 +320,12 @@ $(function(){
             $("#upload").dropArea().bind("drop", this.drop)
 
             // Rearrange position of the "add button"
-            /*$("#add_id_gallery").prependTo($("#add_id_gallery").parent())*/
-            $("#add_id_gallery").remove()
+            $("#add_id_gallery").prependTo($("#add_id_gallery").parent())
             $("#id_gallery").prependTo($("#id_gallery").parent())
+            /*$("#add_id_gallery").remove()
             if(!$('#lookup_id_gallery').length){
                 $('#id_gallery').after('<a href="/admin/galleries/gallery/?_to_field=id" class="related-lookup" id="lookup_id_gallery" onclick="return showRelatedObjectLookupPopup(this);"><img src="/static/admin/img/selector-search.gif" alt="Lookup" width="16" height="16"></a>')
-            }
+            }*/
         },
         
         addOne: function(image) {

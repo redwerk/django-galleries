@@ -3,10 +3,11 @@ from image_cropping.fields import ImageRatioField, ImageCropField
 
 from galleries.settings import IMAGE_CROPPING_RATIO
 
-from orderable.models import OrderableModel
+from orderable.models import Orderable
 
 from django.utils.translation import ugettext as _
 from utils import thumbnail, croppable
+
 
 class Gallery(models.Model):
     title = models.CharField(_('title'), max_length=100, unique=True)
@@ -18,11 +19,11 @@ class Gallery(models.Model):
 
     def __unicode__(self):
         return self.title
-    
+
     @property
     def num_images(self):
         return self.images.all().count()
-    
+
     def serialize(self):
         context = {
             'id': self.id,
@@ -32,20 +33,21 @@ class Gallery(models.Model):
         }
         return context
 
-class Image(OrderableModel):
+
+class Image(Orderable):
     gallery = models.ForeignKey(Gallery, related_name="images")
     title = models.CharField(_('title'), max_length=100, blank=True)
     caption = models.TextField(_('caption'), blank=True)
     image = ImageCropField(blank=True, null=True, upload_to='uploads/galleries/images/')
-    cropping = ImageRatioField('image', IMAGE_CROPPING_RATIO) # size is "width x height"
-    
-    class Meta(OrderableModel.Meta):
+    cropping = ImageRatioField('image', IMAGE_CROPPING_RATIO)  # size is "width x height"
+
+    class Meta(Orderable.Meta):
         verbose_name = _('image')
         verbose_name_plural = _('images')
 
     def __unicode__(self):
         return '%s' % (self.title or self.id)
-    
+
     @property
     def thumbnail(self):
         return thumbnail(self.image, self.cropping)
@@ -54,7 +56,6 @@ class Image(OrderableModel):
     def croppable(self):
         return croppable(self.image)
 
-    
     def serialize(self):
         context = {
             'id': self.id,
@@ -67,6 +68,6 @@ class Image(OrderableModel):
             'croppable': self.croppable,
             'org_width': self.image.width,
             'org_height': self.image.height,
-            'order': self.order
+            'order': self.sort_order
         }
         return context

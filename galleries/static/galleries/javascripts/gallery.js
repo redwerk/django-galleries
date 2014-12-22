@@ -2,39 +2,28 @@ $(function(){
 
     var min_width = parseInt($("#gallery").data('aspect-ratio').split("/")[0])
     var min_height = parseInt($("#gallery").data('aspect-ratio').split("/")[1])
-    /*var min_width = 16
-    var min_height = 9*/
     MIN_SIZE = [min_width, min_height]
     ASPECT_RATIO = min_width/min_height
     
-    
     var gallery_select = $("#id_gallery")
-    
-    var GALLERY_ID =  gallery_select.val()
-    
-    var GALLERY_URL = '/admin/galleries/' + GALLERY_ID + '/images';
-
     $(gallery_select).bind("change", function(e) {
         // Switcing galleries
         var id = $(gallery_select).val()
         if (id != '') {
-            GALLERY_ID =  $(gallery_select).val()
-            GALLERY_URL = '/admin/galleries/' + GALLERY_ID + '/images';
-            Images.url = GALLERY_URL;
+            Images.url = '/admin/galleries/galleries/' + $(gallery_select).val() + '/images'
             window.Gallery = new GalleryView
         }
     })
     
+    GALLERY_ID = gallery_select.val()
     
-
     window.Gallery = Backbone.Model.extend()
     
     window.GalleryImage = Backbone.Model.extend()
 
     window.GalleryImages = Backbone.Collection.extend({
         model: GalleryImage,
-        headers: {"Content-Type": 'application/json'},
-        url: GALLERY_URL,
+        url: '/admin/galleries/galleries/' + GALLERY_ID + '/images',
 
         parse: function(response) {
             return response.images
@@ -247,7 +236,7 @@ $(function(){
             }
             
             function uploadDrop(file) {
-                $.upload(GALLERY_URL, {
+                $.upload("/admin/galleries/galleries/" + GALLERY_ID + "/images/", {
                     image: file, gallery: GALLERY_ID
                 }, function(data) {
                     var image = new GalleryImage(data.image) 
@@ -260,7 +249,7 @@ $(function(){
             var target = e.currentTarget
             _.each(target.files, function(file) {
 
-                $.upload(GALLERY_URL, {
+                $.upload("/admin/galleries/galleries/" + GALLERY_ID + "/images/", {
                     image: file, gallery: GALLERY_ID
                 }, function(data) {
                     var image = new GalleryImage(data.image) 

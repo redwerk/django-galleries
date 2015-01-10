@@ -114,14 +114,17 @@ $(function(){
             coordinates.y = c.y
             coordinates.x2 = c.x2
             coordinates.y2 = c.y2
+            $('#w').val(parseInt(c.w));
+            $('#h').val(parseInt(c.h));
         }
 
         var options = {
-            aspectRatio: ASPECT_RATIO,
-            minSize: MIN_SIZE,
+            /*aspectRatio: ASPECT_RATIO,
+            minSize: MIN_SIZE,*/
             trueSize: [org_width, org_height],
             allowMove: true,
             onSelect: handleSelect,
+            onChange: handleSelect,
         }
         
         // If there are cropping, set initial crop
@@ -191,7 +194,7 @@ $(function(){
 
             $("a", this.el).fancybox({
                 helpers     : {
-                    title   : { type : 'outside' },
+                    title   : { type : 'float' },
                     buttons : {},
                 },
                 afterShow: function(){
@@ -207,14 +210,18 @@ $(function(){
                         coordinates.y = c.y
                         coordinates.x2 = c.x2
                         coordinates.y2 = c.y2
+                        $('#w').val(parseInt(c.w));
+                        $('#h').val(parseInt(c.h));
                     }
 
                     var options = {
-                        aspectRatio: ASPECT_RATIO,
-                        minSize: MIN_SIZE,
+                        /*aspectRatio: ASPECT_RATIO,
+                        minSize: MIN_SIZE,*/
                         trueSize: [org_width, org_height],
                         allowMove: true,
                         onSelect: handleSelect,
+                        onChange: handleSelect,
+
                     }
                     
                     // If there are cropping, set initial crop
@@ -232,7 +239,9 @@ $(function(){
 
                     $(".fancybox-image").Jcrop(options)
 
-                    this.inner.append( '<div><a style="" href="javascript:;" onclick="saveCropping('+id+');">Crop</a></div>');
+                    this.inner.after('<div style="display: block; "><table id="fancybox-title-float-wrap" style="border:none;" cellpadding="0" cellspacing="0"><tbody><tr><td id="fancybox-title-float-main"><a href="javascript:;" onclick="saveCropping('+id+');">Save Cropping</a></td><td id="fancybox-title-float-right"><form onsubmit="return false;"><label>W <input size="4" id="w" name="w" type="text"></label><label>H <input size="4" id="h" name="h" type="text"></label></form></td></tr></tbody></table></div>');
+                    $('#w').val(parseInt(s[2]-s[0]));
+                    $('#h').val(parseInt(s[3]-s[1]));
                 },
             })
 

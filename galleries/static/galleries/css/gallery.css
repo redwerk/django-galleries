@@ -53,3 +53,9 @@
     padding: 0;
     float: left;
 }
+
+.fancybox-nav {
+  width:5%;
+  height:10%;
+  top: 35%;
+}

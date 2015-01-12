@@ -94,11 +94,6 @@ $(function(){
     
     // Add jcrop to every image
     // Add fancybox to images
-    var formatButtons = function(id){
-        var saveBtn = '<div id="fancybox-title" class="fancybox-title-float" style="left: 217px; display: block; "><table id="fancybox-title-float-wrap" cellpadding="0" cellspacing="0"><tbody><tr><td id="fancybox-title-float-left"></td><td id="fancybox-title-float-main"><a style="color: #fff" href="javascript:;" onclick="saveCropping('+id+');">Save</a></td><td id="fancybox-title-float-right"></td></tr></tbody></table></div>';
-        var cancelBtn = '<div id="fancybox-title" class="fancybox-title-float" style="left: 277px; display: block; "><table id="fancybox-title-float-wrap" cellpadding="0" cellspacing="0"><tbody><tr><td id="fancybox-title-float-left"></td><td id="fancybox-title-float-main"><a style="color: #fff" href="javascript:;" onclick="$.fancybox.close();">Cancel</a></td><td id="fancybox-title-float-right"></td></tr></tbody></table></div>';
-        return saveBtn + cancelBtn
-    }
 
     var fancyBoxCropper = function(a) {
         /*var img = $("img", a.element[0]);*/
@@ -149,7 +144,7 @@ $(function(){
         // First make it into a commaseperated list
         var cropping = []
         for (var i in coordinates) {
-            cropping.push(coordinates[i])
+            cropping.push(parseInt(coordinates[i]))
         }
         cropping = cropping.toString()
         
@@ -194,7 +189,7 @@ $(function(){
 
             $("a", this.el).fancybox({
                 helpers     : {
-                    title   : { type : 'float' },
+                    title   : { type : 'outer' },
                     buttons : {},
                 },
                 afterShow: function(){
@@ -239,7 +234,8 @@ $(function(){
 
                     $(".fancybox-image").Jcrop(options)
 
-                    this.inner.after('<div style="display: block; "><table id="fancybox-title-float-wrap" style="border:none;" cellpadding="0" cellspacing="0"><tbody><tr><td id="fancybox-title-float-main"><a href="javascript:;" onclick="saveCropping('+id+');">Save Cropping</a></td><td id="fancybox-title-float-right"><form onsubmit="return false;"><label>W <input size="4" id="w" name="w" type="text"></label><label>H <input size="4" id="h" name="h" type="text"></label></form></td></tr></tbody></table></div>');
+                    this.inner.after('<div style="display: block; "><table id="fancybox-title-float-wrap" style="border: medium none; width: 100%;" cellpadding="0" cellspacing="0"><tbody><tr><td><label>W <input maxlength="4" size="4" id="w" name="w" type="text" readonly></label><label> H <input maxlength="4" size="4" id="h" name="h" type="text" readonly></label> <div class="fancybox-title fancybox-title-float-wrap" style="position: relative; width: 25%; display: inline;right: -8%;"><input type="button" class="child" style="border:none;" value="Save Cropping" onclick="saveCropping('+id+');"></div></td></tr></tbody></table></div>');
+                    
                     $('#w').val(parseInt(s[2]-s[0]));
                     $('#h').val(parseInt(s[3]-s[1]));
                 },
@@ -377,11 +373,13 @@ $(function(){
     
         upload: function(e) {
             var csrf_token = $('input[name=csrfmiddlewaretoken]')[0].value;
-            
+            var _URL = window.URL || window.webkitURL;
             var target = e.currentTarget
-            
 
-            _.each(target.files, function(file) {
+            /*var acceptableSize = function(w,h){
+                return (w > REQUIRED_WIDTH -5) && (w < REQUIRED_WIDTH +5) && (h > REQUIRED_HEIGHT -5) && (h < REQUIRED_HEIGHT +5);
+            }*/
+            var uploadFile = function(file){
                 $.upload(GALLERY_URL, {
                     image: file,
                     gallery: GALLERY_ID,
@@ -391,6 +389,23 @@ $(function(){
                     var image = new GalleryImage(data.image) 
                     Images.add(image)
                 })
+            }
+            _.each(target.files, function(file) {
+                /*var img = new Image();
+                img.onload = function() {
+                    if (typeof REQUIRED_WIDTH === 'undefined') {
+                        uploadFile(file)
+                    }else{
+                        if(!acceptableSize(this.width,this.height)){
+                            alert("The image '"+file.name+"' is "+ this.width + "x" + this.height+" \n\nOnly ("+ REQUIRED_WIDTH + "x" + REQUIRED_HEIGHT + " ±5px) images are acceptable");
+                        }
+                    }
+                };
+                img.onerror = function() {
+                    alert( "Not a valid file: " + file.type);
+                };
+                img.src = _URL.createObjectURL(file);*/
+                uploadFile(file);
             })
 
             e.stopPropagation()
